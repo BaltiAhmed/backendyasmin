@@ -30,6 +30,7 @@ check('datelancement')
 route.get('/',projetControllers.getProjet)
 route.get('/:id',projetControllers.getProjetById)
 route.delete('/:id',projetControllers.deleteProjet)
+route.get('/utilisateur/:id',projetControllers.getProjetByUserId)
 
 
 
