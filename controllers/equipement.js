@@ -129,11 +129,39 @@ const deleteEquipement = async (req, res, next) => {
     res.status(200).json({ message: "deleted" })
 }
 
+const getEquimentByProjectId = async (req, res, next) => {
+    const id = req.params.id;
+  
+    let existingEquipement;
+    try {
+        existingEquipement = await projet.findById(id).populate("equipements");
+    } catch (err) {
+      const error = new httpError(
+        "Fetching project failed, please try again later.",
+        500
+      );
+      return next(error);
+    }
+  
+    if (!existingEquipement || existingEquipement.equipements.length === 0) {
+      return next(
+        new httpError("Could not find project for the provided user id.", 404)
+      );
+    }
+  
+    res.json({
+        equipements: existingEquipement.equipements.map((el) =>
+        el.toObject({ getters: true })
+      ),
+    });
+  };
+
 exports.ajout = ajout
 exports.updateEquipement = updateEquipement
 exports.getEquipement = getEquipement
 exports.getEquipementById = getEquipementById
 exports.deleteEquipement = deleteEquipement
+exports.getEquimentByProjectId = getEquimentByProjectId
 
 
 

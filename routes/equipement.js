@@ -38,6 +38,7 @@ check('quantite')
 route.get('/',equipementControllers.getEquipement)
 route.get('/:id',equipementControllers.getEquipementById)
 route.delete('/:id',equipementControllers.deleteEquipement)
+route.get('/project/:id',equipementControllers.getEquimentByProjectId)
 
 
 module.exports = route
