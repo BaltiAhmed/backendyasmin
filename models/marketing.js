@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const schema = mongoose.Schema;
 
 const marketingSchema = new schema({
-  prix: { type: String, required: true },
+  type: { type: String, required: true },
   cout: { type: String, required: true },
   duree: { type: String, required: true },
 });

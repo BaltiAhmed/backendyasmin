@@ -1,39 +1,32 @@
-const express = require('express');
+const express = require("express");
 const route = express.Router();
 
-const marketingControllers = require('../controllers/marketing')
+const marketingControllers = require("../controllers/marketing");
 
-const {check} = require('express-validator')
+const { check } = require("express-validator");
 
-route.post('/ajout', 
-check('prix')
-.not()
-.isEmpty(),
-check('cout')
-.not()
-.isEmpty(),
-check('duree')
-.not()
-.isEmpty()
+route.post(
+  "/ajout",
+  check("type").not().isEmpty(),
+  check("cout").not().isEmpty(),
+  check("duree").not().isEmpty(),
 
-, marketingControllers.ajout)
+  marketingControllers.ajout
+);
 
-route.patch('/:id', 
-check('prix')
-.not()
-.isEmpty(),
-check('cout')
-.not()
-.isEmpty(),
-check('duree')
-.not()
-.isEmpty()
+route.patch(
+  "/:id",
+  check("type").not().isEmpty(),
+  check("cout").not().isEmpty(),
+  check("duree").not().isEmpty(),
 
-, marketingControllers.updateMarketing)
+  marketingControllers.updateMarketing
+);
 
-route.get('/',marketingControllers.getMarketing)
-route.get('/:id',marketingControllers.getMarketingById)
-route.delete('/:id',marketingControllers.deleteMarketing)
+route.get("/", marketingControllers.getMarketing);
+route.get("/:id", marketingControllers.getMarketingById);
+route.delete("/:id", marketingControllers.deleteMarketing);
 
+route.get("/projet/:id", marketingControllers.getMarketingByProjectId);
 
-module.exports = route
+module.exports = route;
