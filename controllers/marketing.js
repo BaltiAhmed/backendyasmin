@@ -112,36 +112,35 @@ const deleteMarketing = async (req, res, next) => {
 };
 
 const getMarketingByProjectId = async (req, res, next) => {
-    const id = req.params.id;
-  
-    let existingMarketing;
-    try {
-        existingMarketing = await projet.findById(id).populate("marketings");
-    } catch (err) {
-      const error = new httpError(
-        "Fetching project failed, please try again later.",
-        500
-      );
-      return next(error);
-    }
-  
-    if (!existingMarketing || existingMarketing.marketings.length === 0) {
-      return next(
-        new httpError("Could not find  for the provided user id.", 404)
-      );
-    }
-  
-    res.json({
-      marketing: existingMarketing.marketings.map((el) =>
-        el.toObject({ getters: true })
-      ),
-    });
-  };
+  const id = req.params.id;
 
+  let existingMarketing;
+  try {
+    existingMarketing = await projet.findById(id).populate("marketings");
+  } catch (err) {
+    const error = new httpError(
+      "Fetching project failed, please try again later.",
+      500
+    );
+    return next(error);
+  }
+
+  if (!existingMarketing || existingMarketing.marketings.length === 0) {
+    return next(
+      new httpError("Could not find  for the provided user id.", 404)
+    );
+  }
+
+  res.json({
+    marketing: existingMarketing.marketings.map((el) =>
+      el.toObject({ getters: true })
+    ),
+  });
+};
 
 exports.ajout = ajout;
 exports.updateMarketing = updateMarketing;
 exports.getMarketing = getMarketing;
 exports.getMarketingById = getMarketingById;
 exports.deleteMarketing = deleteMarketing;
-exports.getMarketingByProjectId = getMarketingByProjectId
+exports.getMarketingByProjectId = getMarketingByProjectId;

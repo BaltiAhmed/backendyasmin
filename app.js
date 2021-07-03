@@ -11,6 +11,7 @@ const projetRoutes = require("./routes/projet");
 const equipementRoutes = require("./routes/equipement");
 const productionRoutes = require("./routes/production");
 const marketingRoutes = require("./routes/marketing");
+const adminRoutes = require("./routes/admin");
 
 app.use(bodyParser.json());
 
@@ -30,6 +31,7 @@ app.use("/api/projet", projetRoutes);
 app.use("/api/equipement", equipementRoutes);
 app.use("/api/production", productionRoutes);
 app.use("/api/marketing", marketingRoutes);
+app.use("/api/admin", adminRoutes);
 
 app.use((req, res, next) => {
   const error = new httperror("could not find that page", 404);
