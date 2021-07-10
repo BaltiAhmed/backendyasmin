@@ -76,7 +76,7 @@ const getProjet = async (req, res, next) => {
     const error = new httpError("failed signup", 500);
     return next(error);
   }
-  res.json({ existingProjet });
+  res.json({ existingProjet: existingProjet });
 };
 
 const getProjetById = async (req, res, next) => {
@@ -111,35 +111,33 @@ const deleteProjet = async (req, res, next) => {
 };
 
 const getProjetByUserId = async (req, res, next) => {
-    const id = req.params.id;
-  
-    let existingUser;
-    try {
-        existingUser = await utilisateur.findById(id).populate("projets");
-    } catch (err) {
-      const error = new httpError(
-        "Fetching project failed, please try again later.",
-        500
-      );
-      return next(error);
-    }
-  
-    if (!existingUser || existingUser.projets.length === 0) {
-      return next(
-        new httpError("Could not find project for the provided user id.", 404)
-      );
-    }
-  
-    res.json({
-      projet: existingUser.projets.map((el) =>
-        el.toObject({ getters: true })
-      ),
-    });
-  };
+  const id = req.params.id;
+
+  let existingUser;
+  try {
+    existingUser = await utilisateur.findById(id).populate("projets");
+  } catch (err) {
+    const error = new httpError(
+      "Fetching project failed, please try again later.",
+      500
+    );
+    return next(error);
+  }
+
+  if (!existingUser || existingUser.projets.length === 0) {
+    return next(
+      new httpError("Could not find project for the provided user id.", 404)
+    );
+  }
+
+  res.json({
+    projet: existingUser.projets.map((el) => el.toObject({ getters: true })),
+  });
+};
 
 exports.ajout = ajout;
 exports.updateProjet = updateProjet;
 exports.getProjet = getProjet;
 exports.getProjetById = getProjetById;
 exports.deleteProjet = deleteProjet;
-exports.getProjetByUserId = getProjetByUserId
+exports.getProjetByUserId = getProjetByUserId;
