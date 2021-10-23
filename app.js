@@ -6,14 +6,19 @@ const httperror = require("./models/error");
 
 const mongoose = require("mongoose");
 
+const path = require('path');
+
 const utilisateurRoutes = require("./routes/utilisateur");
 const projetRoutes = require("./routes/projet");
 const equipementRoutes = require("./routes/equipement");
 const productionRoutes = require("./routes/production");
 const marketingRoutes = require("./routes/marketing");
 const adminRoutes = require("./routes/admin");
+const formationRoutes = require("./routes/formation");
 
 app.use(bodyParser.json());
+
+app.use('/uploads/images', express.static(path.join('uploads', 'images')));
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -32,6 +37,7 @@ app.use("/api/equipement", equipementRoutes);
 app.use("/api/production", productionRoutes);
 app.use("/api/marketing", marketingRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/formation", formationRoutes);
 
 app.use((req, res, next) => {
   const error = new httperror("could not find that page", 404);
@@ -48,7 +54,7 @@ app.use((error, req, res, next) => {
 
 mongoose
   .connect(
-    "mongodb+srv://admin:admin2021@cluster0.m6xpn.mongodb.net/PFE2021?retryWrites=true&w=majority"
+    "mongodb+srv://yasmine:admin2021@cluster0.i1bxb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
   )
   .then(() => {
     app.listen(5000);
