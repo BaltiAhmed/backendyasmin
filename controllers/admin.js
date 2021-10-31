@@ -86,5 +86,18 @@ const login = async (req, res, next) => {
   res.status(200).json({ admin: existingAdmin, token: token });
 };
 
+const getAdmin = async (req, res, next) => {
+  let existingAdmin;
+  try {
+    existingAdmin = await admin.find();
+  } catch {
+    const error = new httpError("failed signup", 500);
+    return next(error);
+  }
+  res.json({ admin: existingAdmin });
+};
+
+
 exports.signup = signup
 exports.login = login
+exports.getAdmin = getAdmin

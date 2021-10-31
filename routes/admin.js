@@ -19,4 +19,6 @@ route.post(
   adminControllers.login
 );
 
+route.get('/',adminControllers.getAdmin)
+
 module.exports = route;
