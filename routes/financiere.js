@@ -15,7 +15,8 @@ route.post(
   check("adresse").not().isEmpty(),
   check("telephone").not().isEmpty(),
   check("cin").not().isEmpty(),
-  check("qualification").not().isEmpty(),
+  check("budget").not().isEmpty(),
+  check("domaine").not().isEmpty(),
   check("email").normalizeEmail(),
   check("password").isLength({ min: 8 }),
   financiereControllers.signup
@@ -29,7 +30,8 @@ route.patch(
   check("adresse").not().isEmpty(),
   check("telephone").not().isEmpty(),
   check("cin").not().isEmpty(),
-  check("qualifications").not().isEmpty(),
+  check("budget").not().isEmpty(),
+  check("domaine").not().isEmpty(),
   check("email").normalizeEmail(),
   check("password").isLength({ min: 8 }),
   financiereControllers.updatefinanciere
