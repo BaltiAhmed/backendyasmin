@@ -10,7 +10,7 @@ const ajout = async (req, res, next) => {
     return next(new httpError("invalid input passed ", 422));
   }
 
-  const { titre, descreption, datelancement, IdUtilisateur } = req.body;
+  const { titre, descreption, datelancement,categorie, IdUtilisateur } = req.body;
 
   let existingUtilisateur;
   try {
@@ -23,6 +23,7 @@ const ajout = async (req, res, next) => {
     titre,
     descreption,
     datelancement,
+    categorie,
     equipements: [],
     marketings: [],
   });
@@ -45,7 +46,7 @@ const updateProjet = async (req, res, next) => {
     return next(new httpError("invalid input passed ", 422));
   }
   const id = req.params.id;
-  const { titre, descreption, datelancement } = req.body;
+  const { titre, descreption, datelancement,categorie, IdUtilisateur } = req.body;
 
   let existingProjet;
   try {
@@ -57,6 +58,7 @@ const updateProjet = async (req, res, next) => {
   existingProjet.titre = titre;
   existingProjet.descreption = descreption;
   existingProjet.datelancement = datelancement;
+  existingProjet.categorie = categorie;
 
   try {
     existingProjet.save();
