@@ -2,6 +2,7 @@ const httpError = require("../models/error");
 const message = require("../models/message");
 const { validationResult } = require("express-validator");
 const client = require("../models/utilisateur");
+const financiere = require("../models/financiere");
 
 const sendMessageClient = async (req, res, next) => {
   const { text, idSender, idRecever, IdAgriculteur } = req.body;
@@ -190,7 +191,123 @@ const getMessageByClientId = async (req, res, next) => {
   });
 }; */
 
+const sendMessageClientToFinanciere = async (req, res, next) => {
+  const { text, idSender, idRecever, IdAgriculteur } = req.body;
 
-exports.sendMessageClient = sendMessageClient
+  const createdMessage = new message({
+    text,
+    idSender,
+    idRecever,
+  });
+
+  let exististingClient;
+
+  try {
+    exististingClient = await client.findById(IdAgriculteur);
+  } catch (err) {
+    const error = new httpError("problem !!!!!", 500);
+    return next(error);
+  }
+
+  let existingFinanciere;
+
+  try {
+    existingFinanciere = await financiere.findById(idRecever);
+  } catch (err) {
+    const error = new httpError("problem !!!!!", 500);
+    return next(error);
+  }
+
+  console.log(exististingClient);
+
+  try {
+    await createdMessage.save();
+    exististingClient.messages.push(createdMessage);
+    exististingClient.save();
+    existingFinanciere.messages.push(createdMessage);
+    existingFinanciere.save();
+  } catch (err) {
+    const error = new httpError("failed signup", 500);
+    return next(error);
+  }
+
+  res.status(201).json({ message: createdMessage });
+};
+
+const getMessageByFinanciereId = async (req, res, next) => {
+  const id = req.params.id;
+  console.log(id)
+
+  let existingMessage;
+  try {
+    existingMessage = await financiere.findById(id).populate("messages");
+  } catch (err) {
+    const error = new httpError(
+      "Fetching enfants failed, please try again later.",
+      500
+    );
+    return next(error);
+  }
+
+  if (!existingMessage || existingMessage.messages.length === 0) {
+    return next(
+      new httpError("Could not find child for the provided user id.", 404)
+    );
+  }
+
+  res.json({
+    messages: existingMessage.messages.map((el) =>
+      el.toObject({ getters: true })
+    ),
+  });
+};
+
+const sendMessageFinanciereToClient = async (req, res, next) => {
+  const { text, idSender, idRecever, IdAgriculteur } = req.body;
+
+  const createdMessage = new message({
+    text,
+    idSender,
+    idRecever,
+  });
+
+  let exististingClient;
+
+  try {
+    exististingClient = await client.findById(idRecever);
+  } catch (err) {
+    const error = new httpError("problem !!!!!", 500);
+    return next(error);
+  }
+
+  let existingFinanciere;
+
+  try {
+    existingFinanciere = await financiere.findById(IdAgriculteur);
+  } catch (err) {
+    const error = new httpError("problem !!!!!", 500);
+    return next(error);
+  }
+
+  console.log(exististingClient);
+
+  try {
+    await createdMessage.save();
+    exististingClient.messages.push(createdMessage);
+    exististingClient.save();
+    existingFinanciere.messages.push(createdMessage);
+    existingFinanciere.save();
+  } catch (err) {
+    const error = new httpError("failed signup", 500);
+    return next(error);
+  }
+
+  res.status(201).json({ message: createdMessage });
+};
+
+exports.sendMessageClient = sendMessageClient;
 exports.getMessage = getMessage;
 exports.getMessageByClientId = getMessageByClientId;
+exports.sendMessageClientToFinanciere = sendMessageClientToFinanciere;
+exports.getMessageByFinanciereId = getMessageByFinanciereId;
+exports.sendMessageFinanciereToClient = sendMessageFinanciereToClient

@@ -14,6 +14,7 @@ const financiereShcema = new schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true, minlenght: 8 },
   projets: [{ type: mongoose.Types.ObjectId, required: true, ref: "projet" }],
+  messages:[{type:mongoose.Types.ObjectId,required:true,ref:'message'}]
 });
 
 financiereShcema.plugin(uniqueValidator);
