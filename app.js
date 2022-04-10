@@ -59,7 +59,7 @@ app.use((error, req, res, next) => {
 
 mongoose
   .connect(
-    "mongodb+srv://yasmine:admin2021@cluster0.i1bxb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+    "mongodb+srv://yasmine:admin2021@cluster0.fnf4k.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
   )
   .then(() => {
     app.listen(5000);
