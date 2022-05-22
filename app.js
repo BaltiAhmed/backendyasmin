@@ -17,6 +17,7 @@ const adminRoutes = require("./routes/admin");
 const formationRoutes = require("./routes/formation");
 const financiereRoutes = require("./routes/financiere");
 const messageRoute = require("./routes/message");
+const planAffaireRoute = require("./routes/planAffaire");
 
 app.use(bodyParser.json());
 
@@ -42,6 +43,7 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/formation", formationRoutes);
 app.use("/api/financiere", financiereRoutes);
 app.use("/api/message", messageRoute);
+app.use("/api/planAffaire", planAffaireRoute);
 
 
 app.use((req, res, next) => {
